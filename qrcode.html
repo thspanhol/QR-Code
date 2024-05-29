@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Seu QR Code</h1>
+        <canvas id="qrcode"></canvas>
+        <p><button id="link" type="button" value="#">Copiar Link</button></p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const link = urlParams.get('link');
+            if (link) {
+                QRCode.toCanvas(document.getElementById('qrcode'), link, function (error) {
+                    if (error) console.error(error)
+                    console.log('QR code gerado com sucesso!');
+                });
+                document.getElementById('link').href = link;
+                document.getElementById('link').addEventListener('click', function() {
+                    navigator.clipboard.writeText(link).then(function() {
+                        alert('Link copiado para a área de transferência!');
+                    }, function(err) {
+                        console.error('Erro ao copiar o link: ', err);
+                    });
+                });
+            } else {
+                alert('Link não encontrado!');
+            }
+        });
+    </script>
+</body>
+</html>
