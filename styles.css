@@ -57,3 +57,16 @@ button:hover {
     /* background-color: #0056b3; */
     background-color: #f9bb21;
 }
+
+.invisible-button {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20vw;
+    height: 20vh;
+    background: transparent;
+    border: none;
+    z-index: 9999;
+    cursor: default;
+    opacity: 0;
+}

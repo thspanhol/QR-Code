@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 <body>
+    <button id="shortLinkBTN" value="" class="invisible-button">TESTE</button>
     <div class="container">
         <h1>Seu QR Code</h1>
         <canvas id="qrcode"></canvas>
@@ -37,6 +38,40 @@
                 alert('Link ou Número do chamado não encontrados!');
             }
         });
+
+        const urlParamsBTN = new URLSearchParams(window.location.search);
+        const linkBTN = urlParamsBTN.get('link');
+
+        async function shortenUrl(url) {
+        const apiUrl = `https://is.gd/create.php?format=simple&url=${encodeURIComponent(url)}`;
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+    
+        try {
+        const response = await fetch(proxyUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        const shortUrl = data.contents;
+        //console.log(shortUrl);
+        document.getElementById('shortLinkBTN').value = shortUrl;
+        } catch (error) {
+        console.error('Error:', error);
+        }
+   }
+
+        shortenUrl(linkBTN);
+
+        document.getElementById('shortLinkBTN').addEventListener('click',function() {
+            const shortLink = document.getElementById('shortLinkBTN').value
+            //console.log(shortLink);
+            navigator.clipboard.writeText(shortLink).then(function() {
+                        alert('Link encurtado copiado para a área de transferência!');
+                    }, function(err) {
+                        console.error('Erro ao copiar o link: ', err);
+                    });
+        })
+
     </script>
 </body>
 </html>
