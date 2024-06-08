@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
     <div class="container">
         <h1>Gerador de QR Code</h1>
         <form id="linkForm">
@@ -18,5 +30,6 @@
         </form>
     </div>
     <script src="script.js"></script>
+    <script src="login.js"></script>
 </body>
 </html>
