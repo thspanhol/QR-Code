@@ -26,7 +26,7 @@
             link,
             function (error) {
               if (error) console.error(error);
-              console.log("QR code gerado com sucesso!");
+              //console.log("QR code gerado com sucesso!");
             }
           );
           document.getElementById(
@@ -50,46 +50,43 @@
         }
       });
 
-      //const urlParamsBTN = new URLSearchParams(window.location.search);
-      //const linkBTN = urlParamsBTN.get("link");
+      const options = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer ef7d9f52be28047c3a9c520410e50fa7",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: window.location.href,
+        }),
+      };
 
-      async function shortenUrl(url) {
-        const apiUrl = `https://is.gd/create.php?format=simple&url=${encodeURIComponent(
-          url
-        )}`;
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(
-          apiUrl
-        )}`;
+      //fetch("https://proxy.cors.sh/https://curtlink.com/api/url/add", options)
+      fetch("https://corsproxy-k3emf3l4ga-uc.a.run.app", options)
+        .then((response) => response.json())
+        .then((data) => {
+          document
+            .getElementById("shortLinkBTN")
+            .addEventListener("click", function () {
+              const shortLink = data.shorturl;
+              console.log(shortLink);
 
-        try {
-          const response = await fetch(proxyUrl);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          const shortUrl = data.contents;
-          document.getElementById("shortLinkBTN").value = shortUrl;
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
+              navigator.clipboard.writeText(shortLink).then(
+                function () {
+                  alert("Link encurtado copiado para a área de transferência!");
+                },
+                function (err) {
+                  console.error("Erro ao copiar o link: ", err);
+                }
+              );
+            });
+        })
+        .catch((error) => console.error("Error:", error));
 
-      //shortenUrl(linkBTN);
-      shortenUrl(window.location.href);
-
-      document
-        .getElementById("shortLinkBTN")
-        .addEventListener("click", function () {
-          const shortLink = document.getElementById("shortLinkBTN").value;
-          navigator.clipboard.writeText(shortLink).then(
-            function () {
-              alert("Link encurtado copiado para a área de transferência!");
-            },
-            function (err) {
-              console.error("Erro ao copiar o link: ", err);
-            }
-          );
-        });
+    //   fetch('https://corsproxy-k3emf3l4ga-uc.a.run.app', options)
+    // .then(response => response.json())
+    // .then(data => console.log(data))
+    // .catch(error => console.error('Error:', error));
     </script>
   </body>
 </html>

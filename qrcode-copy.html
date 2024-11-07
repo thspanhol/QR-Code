@@ -1,0 +1,95 @@
+<!-- <!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  </head>
+  <body>
+    <button id="shortLinkBTN" value="" class="invisible-button">TESTE</button>
+    <div class="container">
+      <h1>Seu QR Code</h1>
+      <canvas id="qrcode"></canvas>
+      <p id="numeroChamadoDisplay"></p>
+      <p><button id="link" type="button" value="#">Copiar Chave Pix</button></p>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const link = urlParams.get("link");
+        const numeroChamado = urlParams.get("numeroChamado");
+        if (link && numeroChamado) {
+          QRCode.toCanvas(
+            document.getElementById("qrcode"),
+            link,
+            function (error) {
+              if (error) console.error(error);
+              console.log("QR code gerado com sucesso!");
+            }
+          );
+          document.getElementById(
+            "numeroChamadoDisplay"
+          ).innerText = `Número do pedido: ${numeroChamado}`;
+          document.getElementById("link").href = link;
+          document
+            .getElementById("link")
+            .addEventListener("click", function () {
+              navigator.clipboard.writeText(link).then(
+                function () {
+                  alert("Link copiado para a área de transferência!");
+                },
+                function (err) {
+                  console.error("Erro ao copiar o link: ", err);
+                }
+              );
+            });
+        } else {
+          alert("Link ou Número do chamado não encontrados!");
+        }
+      });
+
+      //const urlParamsBTN = new URLSearchParams(window.location.search);
+      //const linkBTN = urlParamsBTN.get("link");
+
+      async function shortenUrl(url) {
+        const apiUrl = `https://is.gd/create.php?format=simple&url=${encodeURIComponent(
+          url
+        )}`;
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(
+          apiUrl
+        )}`;
+
+        try {
+          const response = await fetch(proxyUrl);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          const shortUrl = data.contents;
+          document.getElementById("shortLinkBTN").value = shortUrl;
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+
+      //shortenUrl(linkBTN);
+      shortenUrl(window.location.href);
+
+      document
+        .getElementById("shortLinkBTN")
+        .addEventListener("click", function () {
+          const shortLink = document.getElementById("shortLinkBTN").value;
+          navigator.clipboard.writeText(shortLink).then(
+            function () {
+              alert("Link encurtado copiado para a área de transferência!");
+            },
+            function (err) {
+              console.error("Erro ao copiar o link: ", err);
+            }
+          );
+        });
+    </script>
+  </body>
+</html> -->
